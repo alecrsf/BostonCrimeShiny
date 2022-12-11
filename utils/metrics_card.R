@@ -7,12 +7,9 @@ metrics_UI = function(id, width, title, description, get_percent) {
 				 			p(description),
 				 			h3(countupOutput(id)),
 				 			hr(),
-				 			div(style="text-align: center;", 
-				 					uiOutput(get_percent)
-				 					)
-				 			)
-				 		)
-				 )
+				 			div(style = "text-align: center;",
+				 					uiOutput(get_percent))
+				 		)))
 }
 
 
@@ -25,7 +22,5 @@ metrics_UI2 = function(id, width, title) {
 				 			hr(),
 				 			h3(countupOutput(id)),
 				 			br()
-				 		)
-				 )
-	)
+				 		)))
 }

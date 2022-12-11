@@ -3,61 +3,64 @@
 #====================================
 overview_UI <- function(id) {
 	ns <- NS(id)
-	fluidPage(
-	 column(8,
-		fluidRow(
-			column(width = 9,
-						 fluidRow(
-						 	input(
-						 		'district',
-						 		selectInput(
-						 			inputId = ns("district"),
-						 			label = "Select district",
-						 			choices = levels(BostonCrime$neighborhood),
-						 			selected = "Roxbury",
-						 			width = "100%"
-						 		),
-						 		help = 'Select district to change graph'
-						 	)
-						 ),
-						 fluidRow(div(id = 'card',
-						 						 style = "height: 450px; padding-bottom:0;",
-						 						 apexchartOutput(ns("apex1"))
-						 						 )
-						 				 )
-						 ), 
-			column(
-				width = 3,
-					div(
-						id = 'card',
-						style = "height: 535px; margin: 0px; padding: 0px;",
-						apexchartOutput(ns("radar2"), height = "280px"),
-						hr(style = "margin: 0px; padding: 0px;"),
-					  apexchartOutput(ns("radar"), height = "280px")
+	fluidPage(column(
+		8,
+		fluidRow(column(
+			width = 9,
+			fluidRow(
+				input(
+					'district',
+					selectInput(
+						inputId = ns("district"),
+						label = "Select district",
+						choices = levels(BostonCrime$neighborhood),
+						selected = "Roxbury",
+						width = "100%"
+					),
+					help = 'Select district to change graph'
 				)
+			),
+			fluidRow(
+				div(id = 'card',
+						style = "height: 450px; padding-bottom:0;",
+						apexchartOutput(ns("apex1")))
 			)
 		),
+		column(
+			width = 3,
+			div(
+				id = 'card',
+				style = "height: 535px; margin: 0px; padding: 0px;",
+				apexchartOutput(ns("radar2"), height = "280px"),
+				hr(style = "margin: 0px; padding: 0px;"),
+				apexchartOutput(ns("radar"), height = "280px")
+			)
+		)),
 		fluidRow(
 			metrics_UI2(ns("streetlights"), 3, "Streetlights"),
 			metrics_UI2(ns("density"), 3, "Violence Rate"),
 			metrics_UI2(ns("median_age"), 3, "Median Age"),
 			metrics_UI2(ns("median_income"), 3, "Median Income")
 		)
-	 ),
-	 column(4,
-	 			 fluidRow(div(
-	 			 	id = 'card',
-	 			 	style = "height: 350px;",
-	 			 	h1("Offense Description", style = "font-size: 16px; margin-top: 0; padding-bottom:-15px;"),
-	 			 	highchartOutput(ns("wordcloud"), width = "110%", height = "320")
-	 			 )),
-	 			 fluidRow(div(id = 'card',
-	 			 						 	style = "height: 320px;",
-	 			 					  	 h1("Most committed crimes", style = "font-size: 16px; margin-top: 0; padding-bottom:-15px;"),
-	 			 						  highchartOutput(ns("pie"), width = "110%", height = "290")
-	 			 						 )
-	 			 					)
-					)
+	),
+	column(4,
+				 fluidRow(
+				 	div(
+				 		id = 'card',
+				 		style = "height: 350px;",
+				 		h1("Offense Description", style = "font-size: 16px; margin-top: 0; padding-bottom:-15px;"),
+				 		highchartOutput(ns("wordcloud"), width = "110%", height = "320")
+				 	)
+				 ),
+				 fluidRow(
+				 	div(
+				 		id = 'card',
+				 		style = "height: 320px;",
+				 		h1("Most committed crimes", style = "font-size: 16px; margin-top: 0; padding-bottom:-15px;"),
+				 		highchartOutput(ns("pie"), width = "110%", height = "290")
+				 	)
+			  )
+		 )
 	)
 }
 
@@ -72,42 +75,42 @@ overview_SERVER <- function(id) {
 		
 		#=========== Area =================
 		observeEvent(ns(input$district), {
-		output$apex1 <- renderApexchart({
-		BostonCrime |> 
-			group_by(neighborhood, year, month) |>
-			filter(crime_type %in% c("violence","robbery", "burglary", "drugs")) |> 
-			count(crime_type) |> 
-			mutate('date' = lubridate::make_date(year = year, 
-																					 month = month)) |> 
-			filter(neighborhood == input$district) |> 
-			apex(type = "area", 
-					 mapping = aes(x = date, y = n, fill = crime_type)
-			) |>
-			ax_yaxis(decimalsInFloat = 2) |> 
-			ax_chart(stacked = TRUE) %>%
-			ax_colors(painter::Palette("#22223b", "#F2E9E4", 4))
-			})	
+			output$apex1 <- renderApexchart({
+				BostonCrime |>
+					group_by(neighborhood, year, month) |>
+					filter(crime_type %in% c("violence", "robbery", "burglary", "drugs")) |>
+					count(crime_type) |>
+					mutate('date' = lubridate::make_date(year = year,
+																							 month = month)) |>
+					filter(neighborhood == input$district) |>
+					apex(type = "area",
+							 mapping = aes(x = date, y = n, fill = crime_type)) |>
+					ax_yaxis(decimalsInFloat = 2) |>
+					ax_chart(stacked = TRUE) %>%
+					ax_colors(painter::Palette("#22223b", "#F2E9E4", 4))
+			})
 		})
 		
 		#=========== Radar =================
 		
-		observeEvent(ns(input$variable), {
-			df <- BostonCrime %>% group_by(neighborhood) %>% summarise(
-				commercial_mix_ratio = mean(commercial_mix_ratio),
-				industrial_mix_ratio = mean(industrial_mix_ratio), 
-				owner_occupied_ratio = mean(owner_occupied_ratio),
-				poverty_rate = mean(poverty_rate), 
-				residential_gini_coef = mean(residential_gini_coef),
-				#-----------------------------------------------------
-				less_than_high_school_perc = mean(less_than_high_school_perc),
-				bachelor_degree_or_more_perc = mean(bachelor_degree_or_more_perc),
-				enrolled_college_perc = mean(enrolled_college_perc)
-			)
-			
-			y <- reactive({df |> 
-				filter(neighborhood == input$district) |> 
-				select(enrolled_college_perc) |> pull() |> round(2) * 100
-			})
+		df <- BostonCrime %>% group_by(neighborhood) %>% summarise(
+			commercial_mix_ratio = mean(commercial_mix_ratio),
+			industrial_mix_ratio = mean(industrial_mix_ratio),
+			owner_occupied_ratio = mean(owner_occupied_ratio),
+			poverty_rate = mean(poverty_rate),
+			residential_gini_coef = mean(residential_gini_coef),
+			#-----------------------------------------------------
+			less_than_high_school_perc = mean(less_than_high_school_perc),
+			bachelor_degree_or_more_perc = mean(bachelor_degree_or_more_perc),
+			enrolled_college_perc = mean(enrolled_college_perc)
+		)
+		
+		observeEvent(
+			ns(input$variable), {
+				y <- reactive({
+					df |> filter(neighborhood == input$district) |>
+						select(enrolled_college_perc) |> pull() |> round(2) * 100
+				})
 			
 			output$radar <- renderApexchart({
 			apex(data = NULL, type = "radialBar", 
@@ -131,8 +134,8 @@ overview_SERVER <- function(id) {
 					)
 				})
 			
-			y2 <- reactive({df |> 
-					filter(neighborhood == input$district) |> 
+			y2 <- reactive({
+				df |> filter(neighborhood == input$district) |> 
 					select(poverty_rate) |> pull() |> round(2) * 100
 			})
 			

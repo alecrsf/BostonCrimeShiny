@@ -210,7 +210,10 @@ map_SERVER <- function(id) {
 													 map.layerManager.getLayer('cluster', 'quakesCluster');
 													 clusterManager.unfreeze();
 													 btn.state('unfrozen-markers');}")
-						))))
+							)
+						)
+					)
+				)
 			})
 		})
 		

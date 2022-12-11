@@ -1,6 +1,5 @@
 input = function(input_id, input_element, help) {
-	div(
-	 column(
+	div(column(
 		12,
 		style = 'padding-left: 0;',
 		input_element,
@@ -25,6 +24,5 @@ input = function(input_id, input_element, help) {
 				)
 			)
 		)
-	)
- )
+	))
 }

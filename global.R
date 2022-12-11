@@ -70,8 +70,7 @@ crimes_avg <- BostonCrime |>
 # Data for elevated cloropleth --------
 mapdata <- mapdata |> 
 	left_join(crimes |> select(1,11), 
-						by = "neighborhood") |> 
-	mutate(elevation = Crimes*0.025)
+						by = "neighborhood") 
 
 
 #============== Modules ==================
