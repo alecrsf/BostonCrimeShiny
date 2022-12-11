@@ -1,0 +1,220 @@
+:root {
+	  --primary: #4a4e69;
+	  --secondary: #06c;
+	  --tertiary: #06c;
+	  --info: #06c;
+	  --font: 'IBM Plex Sans';
+	  --font2:'IBM Plex Sans Condensed'
+	  --black: #22223b;
+	  --grey: #D3D0D5;
+    --shadow: hsl(229, 6%, 66%);
+
+}
+
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans');
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Condensed');
+
+
+
+/* NAVBAR ----------------------------------------------------------------*/
+.navbar {
+    background: url('city.png');
+    background-size: 320px;
+    background-repeat: no-repeat;
+    background-position-x: right;
+    background-position-y: -105px;
+    background-color: white;
+    box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.3);
+    min-height: 60px;
+}
+
+.navbar-default .navbar-brand {
+    color: var(--black);
+}
+
+.navbar-brand {
+	  font-family: 'IBM Plex Sans Condensed';
+    display: inline;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 32px;
+}
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+	text-shadow: #999 0 0 1em;
+}
+
+.navbar ul li {
+	font-family: var(--font);
+  color: var(--grey);
+  display: inline;
+  letter-spacing: 3px;
+}
+.navbar ul li a {
+	font-family: var(--font);
+	color: var(--grey);
+  position: relative;
+  font-size: 14px;
+  padding: 20px 12px;
+  -webkit-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+}
+
+/* NAVBAR HOVER */
+
+.navbar ul li a:after {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  content: '';
+  width: 58%;
+  height: 2px;
+  background: var(--primary);
+  margin: 0 auto;
+  opacity: 0;
+  -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+  transition: transform 0.3s, opacity 0.3s;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.navbar ul li a:hover {
+  color: #777;
+}
+.navbar ul li a:hover:after {
+	color: #777;
+  opacity: 1;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+/* SIDEBAR ----------------------------------------------------------------*/
+
+#controls {
+		font-family: var(--font);
+    font-size: 16px;
+    min-height: 98%;
+    max-height: 98%;
+    margin-top: 40px;
+    background-color: white;
+    padding: 20px 20px 20px 20px;
+    border-radius: 2px;
+    box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.3);
+    background-position-x: center;
+    background-position-y: bottom;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+#controls h4 {
+	font-weight: 900;
+}
+
+.control-label {
+	font-family: var(--font);
+	text-transform: uppercase;
+	font-weight: 300;
+}
+
+/* MAIN PANEL ----------------------------------------------------------------*/
+
+.mainPanel {
+    position: fixed;
+    top: 80px;
+    left: 320px;
+    right: 30px;
+    bottom: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+
+/* CARDS ---------------------*/
+
+#card {
+	  border-radius: 5px;
+	  border-top: 3px solid var(--primary);
+	  padding: 5px 15px 15px;
+    background: white;
+    box-shadow: 0px 30px 40px -20px var(--shadow);
+    margin-top: 3px;
+    margin: 5px;
+}
+
+#card h1 {
+	  color: var(--primary);
+	  font-family: var(--font);
+    padding: 0px;
+    margin-bottom: 3px;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+
+}
+
+#card h2 {
+	  color: var(--primary);
+	  font-family: var(--font);
+    padding: 0px;
+    margin-bottom: 3px;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+/* COUNTERUP ---------------------*/
+
+#metric {
+	padding: 0; 
+}
+
+#metric h4 {
+	color: var(--primary);
+	font-family: var(--font);
+	font-size: 20px;
+	margin: 1px;
+	text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+#metric h3 {
+	font-family: var(--font);
+	color: var(--primary); 
+	font-size: 30px; 
+	margin: -3px;
+	padding: 1px, 3px, 3px;
+	text-align: center;	
+	font-weight: 400;
+}
+
+#metric p {
+	font-family: var(--font2);
+	font-weight: 600; 
+	color: #D3D0D5;
+	margin-top: -3px;
+}
+
+/* PERCENTAGE CHANGE */
+
+.percent {
+	font-family: var(--font);
+	font-size: 20px;
+	font-weight: 450;
+	margin: 4px;
+}
+.positive{color:#023e8a}
+.negative{color:#a4133c}
+.positive.inverted{color:#a4133c}
+.negative.inverted{color:#023e8a}
+.NA{
+	font-size: 14px;
+	font-weight: 500;
+	color:#ced4da;
+}
+
+.leaflet-container{
+	background: #FFFFFF;
+}

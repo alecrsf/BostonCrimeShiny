@@ -1,0 +1,13 @@
+name: BostonShiny
+title: BostonShiny
+username:
+account: alecrsf
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 7809558
+bundleId: 6590255
+url: https://alecrsf.shinyapps.io/BostonShiny/
+when: 1670190825.40542
+lastSyncTime: 1670190825.40543
+asMultiple: FALSE
+asStatic: FALSE
