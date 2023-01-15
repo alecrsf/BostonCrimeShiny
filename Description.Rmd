@@ -1,34 +1,46 @@
 ---
-title: "<center><div class='mytitle'>R Markdown output with parallax</div></center>"
-author: "<center><div class='mysubtitle'>See the code on [github](https://github.com/holtzy/R-Markdown-Parallax). This tip is part of my [Pimp my RMD](https://holtzy.github.io/Pimp-my-rmd/) project.</div></center>"
+title: "<div>Data Visualization Project</div>"
+author: "<div> Alessio CRISAFULLI CARPANI <br> Adrien CHAILLOUT-MORLOT <br> Lea LAUSMANN </div>"
 output:
   html_document:
-      toc: true
+      toc: false
+      code_download: true
       includes: 
         before_body: www/header.html
 ---
+<br>
 
-<br><br>
+<h5 style="font-style: italic; font-weight: 400;">
+Master for Smart Data Science (ENSAI)
+</h5>
 
-<div class="mycontent">
+<hr style="border-top: 3px solid #bbb; border-radius: 5px;">
+::: {.row}
+::: {.col-md-4}
 
-
-# How it works
-***
-
-- The `footer.html` file calls both the background image and the logo. 
-- The `style.css` file makes the header full width, but keep a restricted area for your 
-
-
-# Dataset
-
-Our dataset consists of crimes that happened in Boston between Jan. 2016 and Aug. 2019. It can be found at
+<h3> Dataset </h3>
+Our dataset consists of crimes that happened in Boston between Jan. 2016 and Aug. 2019. It can be found at: 
 
 https://sedelmeyer.github.io/predicting-crime/pages/data.html
 
-Originally, the authors created that data set to use it for predicting the occurence of different crime types in Boston. Therefore, they collected and combined data from different sources and used it for their models. 
+Originally, the authors created that data set to use it for predicting the occurence of different crime types in Boston. Therefore, they collected and combined data from different sources and used it for their models.
 
-# Project Goal
+It is also possible to download it from the buttom below:
+```{r download, echo=FALSE}
+suppressPackageStartupMessages(library(downloadthis))
+load("data/BostonCrime.RData")
+BostonCrime %>% download_this(
+    output_name = "Dataset",
+    output_extension = ".csv",
+    button_label = "Download Data as CSV",
+    button_type = "default",
+    has_icon = TRUE,
+    icon = "fa fa-save")
+```
+:::
+
+::: {.col-md-4}
+<h3> Project Goal </h3>
 
 We want to create a shiny app visualizing the described data set.
 
@@ -36,21 +48,31 @@ Since there is quite much information the data should be analyzed from different
 
 On the other hand, it is just one data set on one limited topic that we want to present, so the app should not be too extensive. Especially, it should be built in a way which is not confusing for a user, which is why a well thought out structure will be necessary.
 
- 
-<!-- Also, we want to concentrate on a nice layout, because we are personally interested in improving our skills in that regard (?)  -->
+Also, we want to concentrate on a nice layout, because we are personally interested in improving our skills in that regard
+:::
 
+::: {.col-md-4}
+<h3> Shiny App </h3>
 
+The finished app can be found at: 
 
-# Shiny App
+https://alecrsf.shinyapps.io/BostonShiny/
 
-The finished app can be found at https://alecrsf.shinyapps.io/BostonShiny/
+Whereas the github repo can be found by clicking the upper-right corner of this page, or via the following link: 
+
+https://github.com/alecrsf/BostonCrimeShiny
 
 The app is structured as follows. There are three main pages the user can choose from that make a look into the data possible from different perspectives.
 
 Therefore, the structure of the code looks similar. We set the layout and call necessary libraries, utility functions, and the main pages (called modules) in global.R. Then we just call those functions in ui.R (using navbarPage) and server.R to make the code cleaner. 
 
 In the following, we describe the app and its features in detail.
+:::
+:::
 
+<hr style="border-top: 3px solid #bbb; border-radius: 5px;">
+ 
+<!--  (?)  -->
 
 ## Boston Crime - Intro
 
@@ -280,11 +302,3 @@ A pie chart at the bottom right of the overview shows the distribution of crimes
 Again, the user can download an image of the whole dashboard or the underlying data that served as a basis for the page.
 
 ![Step 10 screenshot](https://images.tango.us/workflows/1714477d-439f-4e40-bd9b-18f53ed4ff7d/steps/a5a7deb0-cd45-4fbe-bb3c-a417730ff220/ffaf696a-14b9-4e13-96c7-1445dbacca32.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=393%3A536)
-
-# Check the code
-***
-
-This minimal example is [hosted on github](https://github.com/holtzy/R-Markdown-Parallax). Have a look to it to see how it works.
-
-<br><br><br>
-</div>
