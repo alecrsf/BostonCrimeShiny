@@ -1,0 +1,290 @@
+---
+title: "<center><div class='mytitle'>R Markdown output with parallax</div></center>"
+author: "<center><div class='mysubtitle'>See the code on [github](https://github.com/holtzy/R-Markdown-Parallax). This tip is part of my [Pimp my RMD](https://holtzy.github.io/Pimp-my-rmd/) project.</div></center>"
+output:
+  html_document:
+      toc: true
+      includes: 
+        before_body: www/header.html
+---
+
+<br><br>
+
+<div class="mycontent">
+
+
+# How it works
+***
+
+- The `footer.html` file calls both the background image and the logo. 
+- The `style.css` file makes the header full width, but keep a restricted area for your 
+
+
+# Dataset
+
+Our dataset consists of crimes that happened in Boston between Jan. 2016 and Aug. 2019. It can be found at
+
+https://sedelmeyer.github.io/predicting-crime/pages/data.html
+
+Originally, the authors created that data set to use it for predicting the occurence of different crime types in Boston. Therefore, they collected and combined data from different sources and used it for their models. 
+
+# Project Goal
+
+We want to create a shiny app visualizing the described data set.
+
+Since there is quite much information the data should be analyzed from different point of views (e.g. neighborhoods, type of crimes, temporal development, additional information). We want to use many interactive and adapting tools that we worked with in the lecture already to make a potential user of the app interested in playing around with the data.
+
+On the other hand, it is just one data set on one limited topic that we want to present, so the app should not be too extensive. Especially, it should be built in a way which is not confusing for a user, which is why a well thought out structure will be necessary.
+
+ 
+<!-- Also, we want to concentrate on a nice layout, because we are personally interested in improving our skills in that regard (?)  -->
+
+
+
+# Shiny App
+
+The finished app can be found at https://alecrsf.shinyapps.io/BostonShiny/
+
+The app is structured as follows. There are three main pages the user can choose from that make a look into the data possible from different perspectives.
+
+Therefore, the structure of the code looks similar. We set the layout and call necessary libraries, utility functions, and the main pages (called modules) in global.R. Then we just call those functions in ui.R (using navbarPage) and server.R to make the code cleaner. 
+
+In the following, we describe the app and its features in detail.
+
+
+## Boston Crime - Intro
+
+__Description:__ 
+Since it’s the first page the user sees, it serves as an introduction of the app and the dataset. It's structure is therefore quite simple.
+
+### 1. Side Panel
+The page consists of three parts. The panel on the left-hand side describes the concept of the app and how to use and interpret the right-hand side of the page.
+
+![Step 1 screenshot](https://images.tango.us/workflows/84c7e967-8fb2-4ff6-8e06-ea96ff3ef137/steps/c22bf3f8-dd35-4b54-85c3-b22ec272b0b2/3a03cdc0-a81d-4d5f-a0d5-c122ef1baad1.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A809)
+
+
+### 2. Selection of a Year
+The user can select one of 4 years that we have data about in a dropdown menu. A small icon above gives an explanation of the dropdown.
+After changing the year the diagram and numbers on the right-hand side of the page update immediately according to the selection made.
+
+![Step 2 screenshot](https://images.tango.us/workflows/84c7e967-8fb2-4ff6-8e06-ea96ff3ef137/steps/7c1cb652-a7bf-48d7-ba8f-79c88d01cbc9/dcbf6c2c-6d84-469b-88ca-223b9d9b3a05.png?crop=focalpoint&fit=crop&fp-x=0.0742&fp-y=0.4255&fp-z=2.3443&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A980)
+
+
+### 3. Interactive Barplot
+The first interactive diagram shows a barplot of the number of of crimes (of any kind) for each neighborhood in the selected year.
+
+![Step 3 screenshot](https://images.tango.us/workflows/84c7e967-8fb2-4ff6-8e06-ea96ff3ef137/steps/a2472baf-a8a5-4ef6-8266-c1597982a14f/3664181c-cf10-4575-b822-d45bf5aa1487.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1694%3A656)
+
+
+### 4. Tooltip
+A tooltip appears for each bar and contains the number of crimes and the average income in the respective neighborhood.
+
+![Step 4 screenshot](https://images.tango.us/workflows/84c7e967-8fb2-4ff6-8e06-ea96ff3ef137/steps/84268507-e398-4d10-8a70-1c206722429a/00ba100a-7e08-4dfc-8b63-e463a4ce08ba.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=637%3A502)
+
+
+### 5. Help Box
+Again, a small icon gives a hint to click on any bar of the plot to zoom into that neighborhood.
+
+![Step 5 screenshot](https://images.tango.us/workflows/84c7e967-8fb2-4ff6-8e06-ea96ff3ef137/steps/91067a02-24ea-4c0b-8b17-bfcee924c74d/772ec10a-3cfb-449a-9009-4ea366b33c10.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1018%3A242)
+
+
+### 6. Drilldown
+After clicking on a bar of the original diagram, the app zooms into that neighborhood and shows a new diagram with the number of crimes in each ZIP5 area.
+
+![Step 6 screenshot](https://images.tango.us/workflows/84c7e967-8fb2-4ff6-8e06-ea96ff3ef137/steps/0ac3eb41-919e-4ac5-b3bd-1b1ccc2c53bd/4ce9a2d2-bf20-47ef-9a8d-6072700826df.png?crop=focalpoint&fit=crop&fp-x=0.5755&fp-y=0.3673&fp-z=1.2152&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A980)
+
+
+### 7. Get back
+With the drilldown of the diagram there also appears a new button to get back to the previous overview.
+
+![Step 7 screenshot](https://images.tango.us/workflows/84c7e967-8fb2-4ff6-8e06-ea96ff3ef137/steps/8abfd84a-85c3-4e75-886f-ae21b70a897c/922c4f1b-9315-4651-adbd-5081fc6aed8a.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=635%3A582)
+
+
+### 8. Export Data
+Moreover on the right there is another button that makes an export of the diagram or the underlying data possible.
+
+![Step 8 screenshot](https://images.tango.us/workflows/84c7e967-8fb2-4ff6-8e06-ea96ff3ef137/steps/2d1c07e1-0cd4-4329-bd5f-a7df24b902a1/c1d3458d-ef9c-4749-bf85-3b720334b549.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=740%3A588)
+
+
+### 9. KPI's
+The third part of the page is located at the bottom and shows for the selected year different key information and how they changed compared to the previous year.
+
+When changing the year in the side panel the KPI's update in such a way that it seems like the number counts up. This was defined in the module metrics.R.
+
+Moreover, the change in percent gets colored automatically according to an increase or decrease of the number of crimes. The respective code can be found in the css file of our project.
+
+![Step 9 screenshot](https://images.tango.us/workflows/84c7e967-8fb2-4ff6-8e06-ea96ff3ef137/steps/73e0d5d6-b4b9-4494-816e-e55baf2c57e2/5e99aa13-4859-4534-9008-fb9f90a7f0db.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1605%3A422)
+
+
+
+## Boston Crime - Map
+
+__Description:__ 
+The second page of our shiny app compares crimes in different neighborhoods on a map. This time the user can also differentiate between different crime types for each neighborhood.
+
+
+### 1. Click on Map
+
+![Step 1 screenshot](https://images.tango.us/workflows/b5815dfd-cf92-4938-8d57-d6936c093f6f/steps/69ca8d98-939b-4122-a2fa-27b7080999a7/126fd08d-e1a1-4ae4-a989-72769fe509bc.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1060%3A316)
+
+
+### 2. Table
+On the left hand-side the user can see a table that contains all number of crimes per neighborhood over the whole given timestamp.
+
+![Step 2 screenshot](https://images.tango.us/workflows/b5815dfd-cf92-4938-8d57-d6936c093f6f/steps/3b18c91d-7d8c-4896-a1a3-331f41f499b6/decd0523-fca6-4aab-8327-d68f301d077f.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=812%3A876)
+
+
+### 3. Help Button
+Again, there is a help button to make the user aware of the possibility to sort each column in increasing or decreasing order.
+
+![Step 3 screenshot](https://images.tango.us/workflows/b5815dfd-cf92-4938-8d57-d6936c093f6f/steps/de785889-33be-448e-948f-fb1d19525516/2b6acc88-3eb4-4f14-966f-51b487ac587c.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=885%3A489)
+
+
+### 4. Sort in increasing order
+
+![Step 4 screenshot](https://images.tango.us/workflows/b5815dfd-cf92-4938-8d57-d6936c093f6f/steps/e592b509-bf6f-4a1f-8194-6bbfd4a45e8c/2ae4138f-7f37-493e-839e-867a17269ce7.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=574%3A396)
+
+
+### 5. Sort in decreasing order
+
+![Step 5 screenshot](https://images.tango.us/workflows/b5815dfd-cf92-4938-8d57-d6936c093f6f/steps/52e14b91-7ded-4120-9838-9eb4138bf6b5/921bca79-585d-48c9-baa4-ae7dd8a5f008.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=486%3A532)
+
+
+### 6. Search
+The user can also can filter for certain neighborhoods.
+
+![Step 6 screenshot](https://images.tango.us/workflows/b5815dfd-cf92-4938-8d57-d6936c093f6f/steps/4ad0e3b4-db12-4f64-b21b-850d8a48f747/d195a5c5-a1bf-4e7a-95e5-a9112e89fbc7.png?crop=focalpoint&fit=crop&fp-x=0.1654&fp-y=0.1985&fp-z=1.6623&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A980)
+
+
+### 7. Boxplots
+At the bottom of each column, a boxplot gets printed to describe the distribution of the respective crime type.
+
+![Step 7 screenshot](https://images.tango.us/workflows/b5815dfd-cf92-4938-8d57-d6936c093f6f/steps/e52019d4-bcce-4811-823a-474fa024240e/115191d9-0849-42de-9bc0-6dd9313cc4d3.png?crop=focalpoint&fit=crop&fp-x=0.1094&fp-y=0.7413&fp-z=2.7988&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A980)
+
+
+### 8. Customize the table
+The user decides how many rows of the table are shown directly. If they don’t fit on one page they get split up and we can switch pages by clicking on next.
+
+![Step 8 screenshot](https://images.tango.us/workflows/b5815dfd-cf92-4938-8d57-d6936c093f6f/steps/2d8500bb-a35a-4fc9-940d-9e8bb5328929/b35efc78-090b-4b97-85bd-a7fc09338f82.png?crop=focalpoint&fit=crop&fp-x=0.2990&fp-y=0.8301&fp-z=3.0380&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A980)
+
+
+### 9. Change size of the table
+Increasing the number of rows results in having to scroll down to see the rest of the neighborhoods.
+
+![Step 9 screenshot](https://images.tango.us/workflows/b5815dfd-cf92-4938-8d57-d6936c093f6f/steps/5d448dad-6956-4529-ac26-c7d310555fe9/1f53e4c1-b349-4205-9090-8e003b1fad81.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=726%3A370)
+
+
+### 10. Map
+The second half of the page is the actual map. At the top we have a row of different choices to make.
+
+![Step 10 screenshot](https://images.tango.us/workflows/b5815dfd-cf92-4938-8d57-d6936c093f6f/steps/a8197fc4-df8c-473c-bc7b-c2e0a48cac58/c668bda5-a4df-42e2-ae40-8ea3376ffa74.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1449%3A898)
+
+
+### 11. Type
+The first choice is to define the type of the map: either Cloropleth or Clusters.
+
+![Step 11 screenshot](https://images.tango.us/workflows/b5815dfd-cf92-4938-8d57-d6936c093f6f/steps/9ab72c2a-6a89-4e57-8cf7-710a17a0b379/cee78ec4-2362-4368-b18c-96626936b57b.png?crop=focalpoint&fit=crop&fp-x=0.4943&fp-y=0.2464&fp-z=2.5131&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A980)
+
+
+### 12. Date
+The date range for which the user wants to examine the number of crimes can be adapted, too.
+
+![Step 12 screenshot](https://images.tango.us/workflows/b5815dfd-cf92-4938-8d57-d6936c093f6f/steps/eaf08e7c-969a-4c5f-a5fc-d7a7fbf0fab1/b2466826-e5fa-48aa-9613-2da30ffd62fd.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=760%3A445)
+
+
+### 13. Type of crimes
+In that dropdown menu, the user can either select all, none or only a few crime types to show up on the map.
+
+![Step 13 screenshot](https://images.tango.us/workflows/b5815dfd-cf92-4938-8d57-d6936c093f6f/steps/d612efdf-34f9-42da-bcea-82e5e2f4c7f5/085f5e6b-50a2-4a71-8ec0-e4c0bfe3b79f.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=698%3A464)
+
+
+### 14. Zoom into map
+When having clusters activated, the user can click on any of the markers to zoom into the map and see the different locations of crimes in more detail.
+
+![Step 14 screenshot](https://images.tango.us/workflows/b5815dfd-cf92-4938-8d57-d6936c093f6f/steps/28645456-c407-44f9-91e6-9a46bb6a9061/5a3bed86-3461-466f-a7fb-3ad238fa6e2a.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1453%3A880)
+
+
+### 15. Mini Map
+The mini map on the bottom right shows the surroundings of the current shown location of the main map to give the user an overview of what he looks at.
+
+![Step 15 screenshot](https://images.tango.us/workflows/b5815dfd-cf92-4938-8d57-d6936c093f6f/steps/d23ee8dc-f827-4027-ad00-3eab2161ebb1/1b36fefe-933e-43b1-9d28-e1747d400394.png?crop=focalpoint&fit=crop&fp-x=0.9344&fp-y=0.7602&fp-z=3.2776&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A980)
+
+
+### 16. Distance Mea
+On the bottom left the user has the possibility to measure different distances and areas.
+
+![Step 16 screenshot](https://images.tango.us/workflows/b5815dfd-cf92-4938-8d57-d6936c093f6f/steps/99a645f2-144c-4ebb-add1-8bf6ba2db219/9ed4801d-eb64-4cb2-822f-7ee57a38572c.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1445%3A882)
+
+
+
+# Boston Crimes - Overview
+
+__Description:__ 
+The third and last page gives an overview over only one neighborhood including multiple diagrams.
+
+
+### 1. Overview
+
+![Step 1 screenshot](https://images.tango.us/workflows/1714477d-439f-4e40-bd9b-18f53ed4ff7d/steps/43905be6-f689-4bc3-ae64-998238bb473e/8b0a9224-441c-422a-95db-107e492d4a28.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A865)
+
+
+### 2. Select neighborhood
+On the upper left of the page the user has to select the neighborhood he wants to see more details about.
+
+![Step 2 screenshot](https://images.tango.us/workflows/1714477d-439f-4e40-bd9b-18f53ed4ff7d/steps/eb950099-2ba3-4ac9-b9e9-c54ddd75a88a/2943d2bc-d184-44d6-b174-e53363a9b01b.png?crop=focalpoint&fit=crop&fp-x=0.2542&fp-y=0.1383&fp-z=1.2921&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A980)
+
+
+### 3. Line chart
+A line chart shows the historical development of the four most important types of crimes.
+
+![Step 3 screenshot](https://images.tango.us/workflows/1714477d-439f-4e40-bd9b-18f53ed4ff7d/steps/f96eaec3-8d6e-4fc3-8c1f-1d8fd18e8c0f/c242abaa-39bb-4040-b547-c869b30142e0.png?crop=focalpoint&fit=crop&fp-x=0.2586&fp-y=0.4378&fp-z=1.2250&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A980)
+
+
+### 4. Pop up
+Hovering over a point in the charts makes the exact number of crimes visible.
+
+![Step 4 screenshot](https://images.tango.us/workflows/1714477d-439f-4e40-bd9b-18f53ed4ff7d/steps/c4749f52-be33-42ae-a92f-cc538a6d67ad/e1aed0a1-f3db-4322-9e28-809a5f10945b.png?crop=focalpoint&fit=crop&fp-x=0.3221&fp-y=0.2883&fp-z=3.1922&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A980)
+
+
+### 5. Zoom in and out
+The user can increase and decrease the shown time span. Moreover, one can move the chart by pulling it in any direction, go back to the initial settings or download an image of the chart.
+
+![Step 5 screenshot](https://images.tango.us/workflows/1714477d-439f-4e40-bd9b-18f53ed4ff7d/steps/abde26cb-90d6-41e9-b405-234cde338857/1488412b-f12c-40da-8d5c-e17c498486dc.png?crop=focalpoint&fit=crop&fp-x=0.4159&fp-y=0.2056&fp-z=3.1715&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A980)
+
+
+### 6. Radial Charts
+Next to the line chart, there are two radial charts showing the percentage of poverty and graduated people from the selected neighborhood.
+
+![Step 6 screenshot](https://images.tango.us/workflows/1714477d-439f-4e40-bd9b-18f53ed4ff7d/steps/51c89f2f-c05e-4657-882c-9988ea73a04d/800c93af-6478-4125-883e-3743589a4557.png?crop=focalpoint&fit=crop&fp-x=0.5802&fp-y=0.4173&fp-z=1.1072&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1920%3A919)
+
+
+### 7. Counters
+At the bottom of the page we can find multiple counters that give some key information about the neighborhood.
+
+![Step 7 screenshot](https://images.tango.us/workflows/1714477d-439f-4e40-bd9b-18f53ed4ff7d/steps/e2f9c625-db92-4862-8085-a4dee6cfa86e/a6c7c2fa-61b6-4424-b204-6d63aadff4a7.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=1286%3A329)
+
+
+### 8. Wordcloud
+In the wordcloud on the upper right, above each word appears the number of times that word appeared in the description of crimes in the respective neighborhood.
+
+![Step 8 screenshot](https://images.tango.us/workflows/1714477d-439f-4e40-bd9b-18f53ed4ff7d/steps/7a50a138-3834-4e6d-8a8c-e9747be6d80f/9ac795b3-a192-46f5-aa6f-547d8e2a715c.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=769%3A598)
+
+
+### 9. Pie Chart
+A pie chart at the bottom right of the overview shows the distribution of crimes in the neighborhood.
+
+![Step 9 screenshot](https://images.tango.us/workflows/1714477d-439f-4e40-bd9b-18f53ed4ff7d/steps/81fc9f19-1f79-4837-aea9-8a05cb3e09bf/01f2bcf9-fc46-495b-8c03-f9a704e3831e.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=785%3A508)
+
+
+### 10. Download Data
+Again, the user can download an image of the whole dashboard or the underlying data that served as a basis for the page.
+
+![Step 10 screenshot](https://images.tango.us/workflows/1714477d-439f-4e40-bd9b-18f53ed4ff7d/steps/a5a7deb0-cd45-4fbe-bb3c-a417730ff220/ffaf696a-14b9-4e13-96c7-1445dbacca32.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.5000&fp-z=1.0000&w=1200&mark-w=0.2&mark-pad=0&mark64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmsucG5n&ar=393%3A536)
+
+# Check the code
+***
+
+This minimal example is [hosted on github](https://github.com/holtzy/R-Markdown-Parallax). Have a look to it to see how it works.
+
+<br><br><br>
+</div>
